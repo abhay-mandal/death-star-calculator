@@ -1,0 +1,23 @@
+<div class="d-flex my-4">
+    <button class="mx-auto" mat-raised-button color="primary" (click)="newCalculation()">+ Neue Berechnung</button>
+</div>
+
+<ng-container *ngIf="potentialEnemies$.length">
+    <h5>Bisherige Berechnungen</h5>
+    <table class="mt-4" cdk-table [dataSource]="potentialEnemies$">
+
+        <ng-container cdkColumnDef="names">
+            <th cdk-header-cell *cdkHeaderCellDef> Name </th>
+            <td cdk-cell *cdkCellDef="let element"> {{element.names}} </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="volume">
+            <th cdk-header-cell *cdkHeaderCellDef>Volume </th>
+            <td cdk-cell *cdkCellDef="let element"> {{element.volume}} KM<sup>3</sup></td>
+        </ng-container>
+
+
+        <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+        <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</ng-container>
