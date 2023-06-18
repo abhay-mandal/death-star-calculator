@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';import { AppTestConstants } from '@app/app.test.constants';
+import { TestBed } from '@angular/core/testing';
 import { LoaderService } from './loader.service';
 
 describe('LoaderService', () => {

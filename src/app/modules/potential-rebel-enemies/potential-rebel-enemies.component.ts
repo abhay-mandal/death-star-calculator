@@ -20,7 +20,7 @@ export class PotentialRebelEnemiesComponent implements OnInit {
   searchText: FormControl = new FormControl('');
   minSearchTextLength = 2;
   filteredPeople$: People[] = [];
-  selectedEnemy: EnemyObject = {} as EnemyObject;
+  selectedEnemies: EnemyObject = {} as EnemyObject;
   private BASE_URL = environment.BASE_URL;
   totalVolume = 0;
   objectkeys = Object.keys;
@@ -42,53 +42,52 @@ export class PotentialRebelEnemiesComponent implements OnInit {
       })
   }
 
-  public displayNull() {
-    return ''
-  }
-
   searchPeople(query: string) {
     this.loaderServ.show();
     let params = new HttpParams().set("search", query);
     this.httpServ.get(`${this.BASE_URL}${AppConstants.API_END_POINT.PEOPLE}`, params).subscribe(resp => {
       this.loaderServ.hide();
       this.filteredPeople$ = resp.body.results.map((data: any) => new People(data));
-      // console.log("this.filteredPeople$", this.filteredPeople$);
-
+      console.log("this.filteredPeople$", this.filteredPeople$);
     })
   }
 
   selectEnemy(option: People) {
     this.resetSelection();
-    if (this.selectedEnemy[option.homeworld]) {
-      if (this.isEnemyPresentInSamePlanet(option.id, this.selectedEnemy[option.homeworld])) {
+    if (this.selectedEnemies[option.homeworld]) {
+      if (this.isEnemyPresentInSamePlanet(option.id, this.selectedEnemies[option.homeworld])) {
         alert(option.name + " is present in Enemy list")
         return;
       }
-      this.selectedEnemy[option.homeworld].push({ name: option.name, id: option.id });
+      this.selectedEnemies[option.homeworld].push({ name: option.name, id: option.id });
     } else {
-      this.selectedEnemy[option.homeworld] = [];
-      this.selectedEnemy[option.homeworld].push({ name: option.name, id: option.id });
+      this.selectedEnemies[option.homeworld] = [];
+      this.selectedEnemies[option.homeworld].push({ name: option.name, id: option.id });
     }
-    // console.log("selectedEnemy", this.selectedEnemy);
+    // console.log("selectedEnemies", this.selectedEnemies);
   }
 
-  isEnemyPresentInSamePlanet(peopleId: number, selectedEnemy: Enemy[]) {
-    return selectedEnemy.some(enemy => enemy.id === peopleId);
+  isEnemyPresentInSamePlanet(peopleId: number, selectedEnemies: Enemy[]) {
+    return selectedEnemies.some(enemy => enemy.id === peopleId);
   }
 
   resetSelection() {
     this.searchText.setValue("");
     this.filteredPeople$ = [];
   }
+  
+  getPlanets(){
+
+  }
 
   calculateEnemiesVolume() {
     this.loaderServ.show();
-    let sources = [];
-    for (let key in this.selectedEnemy) {
-      sources.push(this.httpServ.get(key));
+    let planetsRequestObs = [];
+    for (let key in this.selectedEnemies) {
+      planetsRequestObs.push(this.httpServ.get(key));
     }
-    forkJoin(sources).subscribe((resp) => {
-      console.log(resp);
+    forkJoin(planetsRequestObs).subscribe((resp) => {
+      // console.log(resp);
       this.totalVolume = 0;
       resp.forEach((planet) => {
         this.totalVolume += this.computePlanetVolume(+planet.body?.diameter);
@@ -103,8 +102,8 @@ export class PotentialRebelEnemiesComponent implements OnInit {
 
   get potentialEnemiesName() {
     let names = [];
-    for (let key in this.selectedEnemy) {
-      for (let val of this.selectedEnemy[key]) {
+    for (let key in this.selectedEnemies) {
+      for (let val of this.selectedEnemies[key]) {
         names.push(val.name);
       }
     }

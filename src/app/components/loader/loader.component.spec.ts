@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { LoaderService } from '@app/core/services/loader.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { LoaderComponent } from './loader.component';
 
 describe('LoaderComponent', () => {
