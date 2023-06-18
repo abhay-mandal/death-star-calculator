@@ -40,13 +40,13 @@
 
     <p class="mt-3" *ngIf="totalVolume">
         <span class="me-5">Das volumen der Planten betragt:</span>
-        {{totalVolume | number:'1.0-0'}} KM<sup>3</sup>
+        <span class="total-volume">{{totalVolume | number:'1.0-0'}} KM<sup>3</sup></span>
     </p>
 
     <mat-divider class="my-3"></mat-divider>
 
     <div class="d-flex justify-content-end">
-        <button [disabled]="objectkeys(selectedEnemies).length ? false : true" mat-raised-button color="primary"
+        <button class="confirm-enemy" [disabled]="objectkeys(selectedEnemies).length ? false : true" mat-raised-button color="primary"
             (click)="confirmPotentialRebelEnemy()">Accept</button>
     </div>
 </div>
