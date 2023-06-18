@@ -34,9 +34,16 @@ export class PotentialRebelEnemiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchText.valueChanges.pipe(
-      filter((value: string) => (value.length >= this.minSearchTextLength)),
       debounceTime(500),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      filter((value: string) => {
+        if (!value || !value.trim()) {
+          this.resetSelection();
+          return false;
+        } else {
+          return value.length >= this.minSearchTextLength
+        }
+      })
       ).subscribe(query => {
         this.searchPeople(query);
       })
@@ -48,7 +55,7 @@ export class PotentialRebelEnemiesComponent implements OnInit {
     this.httpServ.get(`${this.BASE_URL}${AppConstants.API_END_POINT.PEOPLE}`, params).subscribe(resp => {
       this.loaderServ.hide();
       this.filteredPeople$ = resp.body.results.map((data: any) => new People(data));
-      console.log("this.filteredPeople$", this.filteredPeople$);
+      // console.log("this.filteredPeople$", this.filteredPeople$);
     })
   }
 
@@ -56,7 +63,7 @@ export class PotentialRebelEnemiesComponent implements OnInit {
     this.resetSelection();
     if (this.selectedEnemies[option.homeworld]) {
       if (this.isEnemyPresentInSamePlanet(option.id, this.selectedEnemies[option.homeworld])) {
-        alert(option.name + " is present in Enemy list")
+        alert(option.name + " is already added in Enemy list")
         return;
       }
       this.selectedEnemies[option.homeworld].push({ name: option.name, id: option.id });
@@ -75,18 +82,18 @@ export class PotentialRebelEnemiesComponent implements OnInit {
     this.searchText.setValue("");
     this.filteredPeople$ = [];
   }
-  
-  getPlanets(){
 
-  }
-
-  calculateEnemiesVolume() {
-    this.loaderServ.show();
+  getPlanetsHTTPResquest(){
     let planetsRequestObs = [];
     for (let key in this.selectedEnemies) {
       planetsRequestObs.push(this.httpServ.get(key));
     }
-    forkJoin(planetsRequestObs).subscribe((resp) => {
+    return planetsRequestObs;
+  }
+
+  calculateEnemiesVolume() {
+    this.loaderServ.show();
+    forkJoin(this.getPlanetsHTTPResquest()).subscribe((resp) => {
       // console.log(resp);
       this.totalVolume = 0;
       resp.forEach((planet) => {

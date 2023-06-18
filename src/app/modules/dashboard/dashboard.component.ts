@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.dataServ.potentailEnemies$.pipe(take(1)).subscribe((potentialEnemies: PotentailEnemy[]) => {
       this.potentialEnemies$ = potentialEnemies;
-      console.log("potentialEnemies", potentialEnemies);
+      // console.log("potentialEnemies", potentialEnemies);
     })
   }
 

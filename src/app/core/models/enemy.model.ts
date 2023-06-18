@@ -12,7 +12,7 @@ export class People {
     id: number;
     homeworld: string;
 
-    getPeopleId(url:string):number {
+    private getPeopleId(url:string):number {
         let arr = url.split("/");
         return +(arr.at(-2)!);
     }

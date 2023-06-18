@@ -9,7 +9,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { of, delay } from 'rxjs';
 import { AppTestConstants } from 'src/app/app.test.constants';
 
-fdescribe('PotentialRebelEnemiesComponent', () => {
+describe('PotentialRebelEnemiesComponent', () => {
   let component: PotentialRebelEnemiesComponent;
   let httpService: HttpService;
   let loaderServiceMock: LoaderService;
