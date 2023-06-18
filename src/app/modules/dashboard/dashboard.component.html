@@ -8,14 +8,13 @@
 
         <ng-container cdkColumnDef="names">
             <th cdk-header-cell *cdkHeaderCellDef> Name </th>
-            <td cdk-cell *cdkCellDef="let element"> {{element.names}} </td>
+            <td cdk-cell *cdkCellDef="let element" [title]="element.names  | name" class="text-truncate"> {{element.names  | name}} </td>
         </ng-container>
 
         <ng-container cdkColumnDef="volume">
             <th cdk-header-cell *cdkHeaderCellDef>Volume </th>
-            <td cdk-cell *cdkCellDef="let element"> {{element.volume}} KM<sup>3</sup></td>
+            <td cdk-cell *cdkCellDef="let element"> {{element.volume | number:'1.0-0'}} KM<sup>3</sup></td>
         </ng-container>
-
 
         <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
         <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>

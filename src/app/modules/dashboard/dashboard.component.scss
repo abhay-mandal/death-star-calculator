@@ -12,4 +12,10 @@ table {
         border-bottom: 1px solid #ccc;
 
     }
+    td.text-truncate {
+        max-width: 400px;
+    }
+    td:nth-child(2){
+        min-width: 200px;
+    }
 }

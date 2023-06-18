@@ -5,10 +5,12 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import {MatButtonModule} from '@angular/material/button';
 import {CdkTableModule} from '@angular/cdk/table';
+import { NamePipe } from './pipe/name.pipe';
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    NamePipe
   ],
   imports: [
     CommonModule,

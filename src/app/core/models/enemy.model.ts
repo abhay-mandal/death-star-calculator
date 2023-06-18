@@ -24,7 +24,6 @@ export class People {
     }
 }
 
-
 export interface PotentailEnemy {
     names: string[],
     volume: number
