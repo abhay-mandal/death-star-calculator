@@ -48,7 +48,7 @@ describe('PotentialRebelEnemiesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should should search', fakeAsync(() => {
+  it('should search people list', fakeAsync(() => {
     getPeopleSpyOn();
     component.searchPeople('test');
     tick(500);
