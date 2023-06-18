@@ -1,0 +1,42 @@
+<div class="mt-4">
+    <h5>Suche in Personen-Datenbank</h5>
+
+    <form class="example-form">
+        <mat-form-field class="w-100">
+            <mat-label>Search potential rebel</mat-label>
+            <input type="search" placeholder="Pick one" matInput [formControl]="searchText" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)='selectPeople($event.option.value)'>
+                <mat-option *ngFor="let option of filteredPeople" [value]="option">
+                    {{option.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </form>
+
+    <mat-card class="mt-4">
+        <mat-card-header>
+            <mat-card-title>Enemy List</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let people of selectedPeople | keyvalue">{{people.value}}
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="d-flex justify-content-end">
+        <button [disabled]="objectkeys(selectedPeople).length ? false : true" class="mt-3" mat-stroked-button color="primary" (click)="calculateEnemy()">Calculate</button>
+    </div>
+
+    <p class="mt-3" *ngIf="totalVolume">
+        <span class="me-5">Das volumen der Planten betragl:</span>
+        {{totalVolume}} KM<sup>3</sup>
+    </p>
+
+    <mat-divider class="my-3"></mat-divider>
+
+    <div class="d-flex justify-content-end">
+        <button [disabled]="objectkeys(selectedPeople).length ? false : true" mat-raised-button color="primary" (click)="confirmPotentialRebelEnemy()">Accept</button>
+    </div>
+</div>
